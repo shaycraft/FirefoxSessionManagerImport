@@ -1,0 +1,4 @@
+node_modules
+
+# do not check in the actual data (session file)
+sessionfiles
