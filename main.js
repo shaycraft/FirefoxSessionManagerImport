@@ -1,15 +1,22 @@
 var fs = require('fs');
+
 console.log('\n *START* \n');
+
 var content = JSON.parse(fs.readFileSync('sessionfiles/okrestofwins.session.json'));
-//console.dir(content);
 var count = 0;
+var tab_id = 1;
+var entry_id = 1;
+
 console.log ('We have ' + content.windows.length + ' windows');
+
 content.windows.forEach(function(win, i) {
 	win.tabs.forEach(function(tab, j) {
 		tab.entries.forEach(function(entry, k) {
-			console.log(`"${i}","${j}",${k},${entry.title},${entry.url},${entry.referrer}`);
+			console.log(`"${i}","${tab_id}",${entry_id},${entry.title},${entry.url},${entry.referrer}`);
 			count++;
+			entry_id++;
 		});
+		tab_id++;
 	});
 	//console.log('Window ' + i + ' has ' + win.tabs.length + ' tabs');
 });
