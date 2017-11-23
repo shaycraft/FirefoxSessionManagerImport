@@ -1,41 +1,44 @@
 var fs = require('fs');
-var pgconn = require('./conn');
+//var pgconn = require('./conn');
 var repository = require('./repository');
 
-async function doshit() {
+async function process() {
 
-	// await pgconn.connect();
-	// let shit = await pgconn.query('insert into tabs(window_id, image_url, last_accessed) values($1,$2,$3)', [-1, 'shit.jpg', 'NOW()']);
-	// let result = await pgconn.query('select * from tabs');
-	// console.log(result.rows);	
-	let res = await repository.getTabs();
-	console.log(res);
+	var content = JSON.parse(fs.readFileSync('sessionfiles/okrestofwins.session.json'));
+	var count = 0;
+	var tab_id = 1;
+	var entry_id = 1;
+
+	var entries = [];
+
+	content.windows.forEach(function (win, i) {
+		win.tabs.forEach(function (tab, j) {
+			tab.entries.forEach(function (entry, k) {
+				entries.push([i, j, tab.image, entry.title, entry.url, entry.referrer]);
+				count++;
+				entry_id++;
+			});
+			tab_id++;
+		});
+	});
+
+	for (var i = 0; i < entries.length; i++) {
+		if (i != 0 && (i - 1) % 50 == 0) {
+			console.log(`Inserted ${i} rows`);
+		}
+		await repository.insertRow(entries[i][0], entries[i][1], entries[i][2], entries[i][3], entries[i][4], entries[i][5]);
+	}
+
+	await repository.dispose();
 }
-
-doshit();
-return;
 
 console.log('\n *START* \n');
 
-var content = JSON.parse(fs.readFileSync('sessionfiles/okrestofwins.session.json'));
-var count = 0;
-var tab_id = 1;
-var entry_id = 1;
-
-console.log('We have ' + content.windows.length + ' windows');
-
-
-content.windows.forEach(function (win, i) {
-	win.tabs.forEach(function (tab, j) {
-		tab.entries.forEach(function (entry, k) {
-			console.log(`"${i}","${tab_id}",${entry_id},${entry.title},${entry.url},${entry.referrer}`);
-			count++;
-			entry_id++;
-		});
-		tab_id++;
-	});
-	//console.log('Window ' + i + ' has ' + win.tabs.length + ' tabs');
+process().then(() => {
+	console.log('\n *END* \n');
+}, err => {
+	console.log('ERROR!');
+	console.error(err);
 });
-//console.log(content.windows[0].tabs[3].entries[0]);
-//console.log(content.windows[0].tabs[3].entries[1]);
-console.log(count);
+
+
