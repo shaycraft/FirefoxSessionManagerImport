@@ -1,4 +1,5 @@
 var express = require('express');
+var config = require('./config');
 var app = express();
 
 var handleError = function (err, res) {
@@ -9,6 +10,13 @@ var handleError = function (err, res) {
 
 app.get('/', function (req, res) {
     res.send('sup bruh');
+});
+
+app.post('/authorize', function (req, res) {
+    console.log(req.body);
+    console.log(req.headers);
+    res.statusCode = 200;
+    res.end();
 });
 
 app.get('/tabs', async function (req, res) {
@@ -23,3 +31,4 @@ app.get('/tabs', async function (req, res) {
 
 app.listen(3000);
 console.log('Listening on port 3000');
+console.log(config);
