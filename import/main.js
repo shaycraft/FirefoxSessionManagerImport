@@ -4,6 +4,8 @@ var repository = require('./repository');
 
 async function process() {
 
+	await repository.init();
+	
 	var content = JSON.parse(fs.readFileSync('sessionfiles/okrestofwins.session.json'));
 	var count = 0;
 	var tab_id = 1;

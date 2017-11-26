@@ -1,5 +1,8 @@
 const conn = require('./conn');
-conn.connect();
+
+var init = async function() {
+    await conn.connect();
+}
 
 var getTabs = async function () {
     return await conn.query('select * from tabs');
@@ -17,3 +20,4 @@ var dispose = async function () {
 module.exports.getTabs = getTabs;
 module.exports.dispose = dispose;
 module.exports.insertRow = insertRow;
+module.exports.init = init;
