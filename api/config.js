@@ -1,4 +1,4 @@
 var config = {};
-config.passphrase = "PASSWORD";
+config.password = "PASSWORD";
 
 module.exports = config;
