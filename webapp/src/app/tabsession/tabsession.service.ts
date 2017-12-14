@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
 import { Tabs } from '../models/tab.model';
@@ -9,10 +10,11 @@ import { Tabs } from '../models/tab.model';
 export class TabsessionService {
   private readonly BASE_URL: string = 'http://ffsmi.samhaycraft.net';
   private _headers: any;
+  private _subject: Subject<Tabs[]>;
 
   constructor(private http: Http) {
     console.log('DEBUG, in service constructor');
-
+    this._subject = new Subject<Tabs[]>();
   }
 
   private getToken(): Observable<string> {
@@ -27,24 +29,31 @@ export class TabsessionService {
     .subscribe();*/
   }
 
-  public getTabs(): Observable<Tabs[] {
+  public getTabs(): Observable<Tabs[]> {
+
     if (this._headers) {
-      return this.getTabsCall();
+      this.getTabsCall();
     }
     else {
-       this.getToken()
+      this.getToken()
         .first()
         .subscribe(x => {
-          this._headers = [{'x-auth-token': x }];
-          return this.getTabsCall();
+          this._headers = [{ 'x-auth-token': x }];
+          this.getTabsCall();
         });
     }
+
+    return this._subject.asObservable();
   }
 
-  private getTabsCall(): Observable<Tabs[]> {
+  private getTabsCall(): void {
     console.log('Debug, headers = ');
     console.log(this._headers);
-    return this.http.get(`${this.BASE_URL}/tabs`, { headers: this._headers })
-      .map((res) => res.json());
+    this.http.get(`${this.BASE_URL}/tabs`, { headers: this._headers })
+      .map((res) => res.json())
+      .first()
+      .subscribe(x => {
+        this._subject.next(x);
+      })
   }
 }

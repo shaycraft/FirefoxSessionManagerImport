@@ -18,7 +18,11 @@ export class TabsessionComponent implements OnInit {
   ngOnInit() {
     this.tabsessionService.getTabs()
     .first()
-    .subscribe(data => this.tabs = data)
+    .subscribe(data => {
+      this.tabs = data;
+      console.log('DEBUG, tabs = ');
+      console.log(this.tabs);
+    })
   }
 
 }
