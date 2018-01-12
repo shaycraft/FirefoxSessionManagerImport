@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 
 import { Tabs } from '../models/tab.model';
+import { headersToString } from 'selenium-webdriver/http';
 
 @Injectable()
 export class TabsessionService {
   private readonly BASE_URL: string = 'http://ffsmi.samhaycraft.net';
-  private _headers: any;
+  //private readonly BASE_URL: string = 'http://localhost:3000';
+  private _headers: Headers;
   private _subject: Subject<Tabs[]>;
 
   constructor(private http: Http) {
     console.log('DEBUG, in service constructor');
     this._subject = new Subject<Tabs[]>();
+    this._headers = new Headers();
   }
 
   private getToken(): Observable<string> {
@@ -31,14 +35,14 @@ export class TabsessionService {
 
   public getTabs(): Observable<Tabs[]> {
 
-    if (this._headers) {
+    if (this._headers.has('x-auth-token')) {
       this.getTabsCall();
     }
     else {
       this.getToken()
         .first()
         .subscribe(x => {
-          this._headers = [{ 'x-auth-token': x }];
+          this._headers.append('x-auth-token', x);
           this.getTabsCall();
         });
     }
@@ -47,8 +51,6 @@ export class TabsessionService {
   }
 
   private getTabsCall(): void {
-    console.log('Debug, headers = ');
-    console.log(this._headers);
     this.http.get(`${this.BASE_URL}/tabs`, { headers: this._headers })
       .map((res) => res.json())
       .first()
