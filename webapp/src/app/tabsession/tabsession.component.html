@@ -1,3 +1,31 @@
-<p>
-  tabsession works!
-</p>
+<h3>Tabs List</h3>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                tab_id
+            </th>
+            <th>
+                window_id
+            </th>
+            <th>
+                image_url
+            </th>
+            <th>title</th>
+            <th>url</th>
+            <th>referrer</th>
+            <th>last_accessed</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let tab of tabs">
+            <td>{{tab.tab_id}}</td>
+            <td>{{tab.window_id}}</td>
+            <td>{{tab.title}}</td>
+            <td>{{tab.url}}</td>
+            <td>{{tab.referrer}}</td>
+            <td>{{tab.last_accessed}}</td>
+        </tr>
+    </tbody>
+</table>

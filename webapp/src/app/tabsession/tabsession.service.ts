@@ -10,8 +10,8 @@ import { headersToString } from 'selenium-webdriver/http';
 
 @Injectable()
 export class TabsessionService {
-  private readonly BASE_URL: string = 'http://ffsmi.samhaycraft.net';
-  //private readonly BASE_URL: string = 'http://localhost:3000';
+  //private readonly BASE_URL: string = 'http://ffsmi.samhaycraft.net';
+  private readonly BASE_URL: string = 'http://localhost:3000';
   private _headers: Headers;
   private _subject: Subject<Tabs[]>;
 
