@@ -1,31 +1,36 @@
 <h3>Tabs List</h3>
 
-<table>
-    <thead>
-        <tr>
-            <th>
-                tab_id
-            </th>
-            <th>
-                window_id
-            </th>
-            <th>
-                image_url
-            </th>
-            <th>title</th>
-            <th>url</th>
-            <th>referrer</th>
-            <th>last_accessed</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let tab of tabs">
-            <td>{{tab.tab_id}}</td>
-            <td>{{tab.window_id}}</td>
-            <td>{{tab.title}}</td>
-            <td>{{tab.url}}</td>
-            <td>{{tab.referrer}}</td>
-            <td>{{tab.last_accessed}}</td>
-        </tr>
-    </tbody>
-</table>
+<mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="tab_id">
+        <mat-header-cell *matHeaderCellDef>Tab id</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.tab_id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="window_id">
+        <mat-header-cell *matHeaderCellDef>Window id</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.window_id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="url">
+        <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.url}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="referrer">
+        <mat-header-cell *matHeaderCellDef>referrer</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.referrer}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="last_accessed">
+        <mat-header-cell *matHeaderCellDef>Last Accessed</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.last_accessed | date:'medium'}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>
