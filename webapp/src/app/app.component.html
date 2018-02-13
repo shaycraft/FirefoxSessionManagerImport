@@ -1,6 +1,7 @@
 <div class="container">
     <h1>Firefox Session Manager</h1>
-    <a routerLink='/tabsession'>Tabs</a>
-    <a routerLink='/about'>About</a>
 </div>
+<nav mat-tab-nav-bar>
+    <a mat-tab-link *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive #rla="routerLinkActive" [active]="rla.isActive">{{link.label}}</a>
+</nav>
 <router-outlet></router-outlet>
