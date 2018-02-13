@@ -1,3 +1,36 @@
-<p>
-  tabsession works!
-</p>
+<h3>Tabs List</h3>
+
+<mat-table #table [dataSource]="dataSource">
+    <ng-container matColumnDef="tab_id">
+        <mat-header-cell *matHeaderCellDef>Tab id</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.tab_id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="window_id">
+        <mat-header-cell *matHeaderCellDef>Window id</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.window_id}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef>Title</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="url">
+        <mat-header-cell *matHeaderCellDef>Url</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.url}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="referrer">
+        <mat-header-cell *matHeaderCellDef>referrer</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.referrer}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="last_accessed">
+        <mat-header-cell *matHeaderCellDef>Last Accessed</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.last_accessed | date:'medium'}}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</mat-table>

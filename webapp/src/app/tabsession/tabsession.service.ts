@@ -10,13 +10,12 @@ import { headersToString } from 'selenium-webdriver/http';
 
 @Injectable()
 export class TabsessionService {
-  private readonly BASE_URL: string = 'http://ffsmi.samhaycraft.net';
-  //private readonly BASE_URL: string = 'http://localhost:3000';
+  //private readonly BASE_URL: string = 'http://ffsmi.samhaycraft.net';
+  private readonly BASE_URL: string = 'http://localhost:3000';
   private _headers: Headers;
   private _subject: Subject<Tabs[]>;
 
   constructor(private http: Http) {
-    console.log('DEBUG, in service constructor');
     this._subject = new Subject<Tabs[]>();
     this._headers = new Headers();
   }
@@ -24,13 +23,6 @@ export class TabsessionService {
   private getToken(): Observable<string> {
     return this.http.post(`${this.BASE_URL}/authorize`, { password: 'PASSWORD' })
       .map(res => res.text());
-    /*
-      console.log('DEBUG, authorize called, result = ');
-      this._headers = [{ 'x-auth-token': res.text() }];
-      console.log(res.text());
-    })
-    .first()
-    .subscribe();*/
   }
 
   public getTabs(): Observable<Tabs[]> {
