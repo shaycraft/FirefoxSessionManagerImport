@@ -13,12 +13,15 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
+import { LogonComponent } from './logon/logon.component';
+import { LogonService } from './logon/logon.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    AboutComponent
+    AboutComponent,
+    LogonComponent
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,9 @@ import { AboutComponent } from './about/about.component';
     RouterModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [
+    LogonService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
