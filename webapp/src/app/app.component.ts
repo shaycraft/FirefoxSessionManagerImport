@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LogonService } from './logon/logon.service';
+
 import 'rxjs/add/operator/first';
 
 @Component({
@@ -26,13 +27,19 @@ export class AppComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    //this.logonSerivce.isLoggedIn().first()
-    this.logonSerivce.isLoggedIn().first()
-      .subscribe(x => {
-        console.log(`DEBUG:  in isLoggedIn callback, x = ${x}`);
-        if (x) {
-          this.isAuthenticated = true;
-        }
-      });
+    this.isAuthenticated = this.logonSerivce.IsAuthorized();
+  }
+
+  public Authorize(): void {
+    this.logonSerivce.Authorize('PASSWORD')
+    .subscribe(x => {
+      if (x) {
+        this.isAuthenticated = true;
+      }
+      else {
+        console.log('something went bad on authorize');
+        this.isAuthenticated = false;
+      }
+    })
   }
 }

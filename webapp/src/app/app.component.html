@@ -3,6 +3,7 @@
 </div>
 <ng-container *ngIf="!IsAuthenticated">
     You are not authed bruh
+    <button (click)="Authorize();">Authorize</button>
     <logon-view></logon-view>
 </ng-container>
 <ng-container *ngIf="isAuthenticated">
