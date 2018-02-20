@@ -10,6 +10,7 @@ import 'rxjs/add/operator/first';
 })
 export class AppComponent implements OnInit {
   private isAuthenticated: boolean;
+  private password: string;
 
   private navLinks: Array<object> = [
     {
@@ -31,7 +32,8 @@ export class AppComponent implements OnInit {
   }
 
   public Authorize(): void {
-    this.logonSerivce.Authorize('PASSWORD')
+    console.log(this.password);
+    this.logonSerivce.Authorize(this.password)
     .subscribe(x => {
       if (x) {
         this.isAuthenticated = true;

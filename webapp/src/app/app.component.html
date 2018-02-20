@@ -2,7 +2,7 @@
     <h1>Firefox Session Manager</h1>
 </div>
 <ng-container *ngIf="!IsAuthenticated">
-    You are not authed bruh
+    You are not authed bruh<br /> Enter dat pw yo!: <input type="password" [(ngModel)]="password" />
     <button (click)="Authorize();">Authorize</button>
     <logon-view></logon-view>
 </ng-container>
